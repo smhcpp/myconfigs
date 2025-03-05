@@ -1,0 +1,83 @@
+# This is the configuration file for Ghostty.
+#
+# This template file has been automatically created at the following
+# path since Ghostty couldn't find any existing config files on your system:
+#
+#   /home/mortimer/.config/ghostty/config
+#
+# The template does not set any default options, since Ghostty ships
+# with sensible defaults for all options. Users should only need to set
+# options that they want to change from the default.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+
+# Config syntax crash course
+# ==========================
+# # The config file consists of simple key-value pairs,
+# # separated by equals signs.
+# font-family = Iosevka
+# window-padding-x = 2
+#
+# # Spacing around the equals sign does not matter.
+# # All of these are identical:
+# key=value
+# key= value
+# key =value
+# key = value
+#
+# # Any line beginning with a # is a comment. It's not possible to put
+# # a comment after a config option, since it would be interpreted as a
+# # part of the value. For example, this will have a value of "#123abc":
+# background = #123abc
+#
+# # Empty values are used to reset config keys to default.
+# key =
+#
+# # Some config options have unique syntaxes for their value,
+# # which is explained in the docs for that config option.
+# # Just for example:
+# resize-overlay-duration = 4s 200ms
+theme = ayu
+font-size=15
+shell-integration-features=no-title, sudo, no-cursor
+mouse-hide-while-typing=true
+window-save-state= always
+window-colorspace= "display-p3"
+window-decoration=server
+
+
+# Save selected text to clipboard with mod+c
+keybind = alt+c=copy_to_clipboard
+
+# Paste from clipboard with mod+v
+keybind = alt+v=paste_from_clipboard
+
+# Open a new tab with mod+t
+keybind = alt+t=new_tab
+
+# Cycle through tabs with mod+w (here we use next_tab)
+keybind = alt+w=next_tab
+
+# Close the current tab with mod+q
+keybind = alt+q=close_surface
+
+# Cycle through splits with mod+d (go to the next split)
+keybind = alt+d=goto_split:next
+
+# Open a new horizontal split (stacked) with mod+f;
+# usually a horizontal split divides the terminal into top and bottom, so we use new_split:down
+keybind = alt+f=new_split:down
+
+# Open a new vertical split (side-by-side) with mod+g;
+# vertical split is created with new_split:right
+keybind = alt+g=new_split:right
+
+gtk-wide-tabs = false
+gtk-adwaita = false
+gtk-tabs-location = bottom
+
+gtk-custom-css = tab-style.css
