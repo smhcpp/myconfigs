@@ -3,19 +3,19 @@
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.opt.termguicolors = true   -- Enable true color support
-vim.opt.number = true          -- Show line numbers
-vim.opt.relativenumber = true  -- Show relative line numbers
-vim.opt.scrolloff = 10         -- Keep 10 lines when scrolling
-vim.opt.shiftwidth = 2         -- Shift 2 spaces when indenting
-vim.opt.tabstop = 2            -- 1 tab = 2 spaces
-vim.opt.softtabstop = 2        -- Number of spaces per tab in insert mode
-vim.opt.expandtab = true       -- Use spaces instead of tabs
-vim.opt.smarttab = true 
+vim.opt.termguicolors = true  -- Enable true color support
+vim.opt.number = true         -- Show line numbers
+vim.opt.relativenumber = true -- Show relative line numbers
+vim.opt.scrolloff = 10        -- Keep 10 lines when scrolling
+vim.opt.shiftwidth = 2        -- Shift 2 spaces when indenting
+vim.opt.tabstop = 2           -- 1 tab = 2 spaces
+vim.opt.softtabstop = 2       -- Number of spaces per tab in insert mode
+vim.opt.expandtab = true      -- Use spaces instead of tabs
+vim.opt.smarttab = true
 vim.opt.smartindent = true
-vim.opt.incsearch = true       -- Show matches while typing
-vim.opt.ignorecase = true      -- Case-insensitive searching
-vim.opt.hlsearch = false       -- Disable search highlighting
+vim.opt.incsearch = true  -- Show matches while typing
+vim.opt.ignorecase = true -- Case-insensitive searching
+vim.opt.hlsearch = false  -- Disable search highlighting
 vim.opt.wrap = false
 vim.opt.cursorline = true
 vim.opt.showmode = false
@@ -34,7 +34,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { out,                            "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -46,10 +46,10 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
-    { 
-      "catppuccin/nvim", 
-      name = "catppuccin", 
-      priority = 1000 
+    {
+      "catppuccin/nvim",
+      name = "catppuccin",
+      priority = 1000
     },
     {
       "akinsho/toggleterm.nvim", -- Better terminal
@@ -60,15 +60,15 @@ require("lazy").setup({
     },
     {
       'lervag/vimtex',
-      ft = 'tex', -- Only load for LaTeX files
+      ft = 'tex',                                     -- Only load for LaTeX files
       config = function()
-        vim.g.vimtex_view_method = 'zathura' -- PDF viewer (change to 'skim' on macOS)
-        vim.g.vimtex_compiler_method = 'latexmk' -- Default compiler
-        vim.g.vimtex_syntax_enabled = 1 -- Enhanced syntax highlighting
-        vim.g.vimtex_view_forward_search_on_start = 1  -- Auto-open PDF
-        vim.g.vimtex_view_automatic = 1  
+        vim.g.vimtex_view_method = 'zathura'          -- PDF viewer (change to 'skim' on macOS)
+        vim.g.vimtex_compiler_method = 'latexmk'      -- Default compiler
+        vim.g.vimtex_syntax_enabled = 1               -- Enhanced syntax highlighting
+        vim.g.vimtex_view_forward_search_on_start = 1 -- Auto-open PDF
+        vim.g.vimtex_view_automatic = 1
       end
-    },   
+    },
     {
       "lewis6991/gitsigns.nvim",
       config = true,
@@ -101,7 +101,7 @@ require("lazy").setup({
     {
       "hrsh7th/nvim-cmp",
       dependencies = {
-        "L3MON4D3/LuaSnip",  -- Add snippet support
+        "L3MON4D3/LuaSnip", -- Add snippet support
         "saadparwaiz1/cmp_luasnip",
         "rafamadriz/friendly-snippets"
       }
@@ -111,7 +111,7 @@ require("lazy").setup({
       config = true
     },
     {
-      "williamboman/mason-lspconfig.nvim"  -- Bridge between Mason and LSPConfig
+      "williamboman/mason-lspconfig.nvim" -- Bridge between Mason and LSPConfig
     },
     {
       "nvim-neo-tree/neo-tree.nvim",
@@ -128,14 +128,14 @@ require("lazy").setup({
         local auto_session = require("auto-session")
 
         auto_session.setup({
-          auto_restore_enabled = false,
+          auto_restore_enabled = true,
           auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
         })
 
         local keymap = vim.keymap
         -- dont use zh, zv, zx, zn.
-        keymap.set("n", "<leader>zr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" }) -- restore last workspace session for current directory
-        keymap.set("n", "<leader>zs", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
+        keymap.set("n", "<leader>zo", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" })             -- restore last workspace session for current directory
+        keymap.set("n", "<leader>zz", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
       end,
     },
     {
@@ -160,7 +160,7 @@ require("lazy").setup({
             mappings = {
               i = {
                 ["<C-k>"] = actions.move_selection_previous, -- move to prev result
-                ["<C-j>"] = actions.move_selection_next, -- move to next result
+                ["<C-j>"] = actions.move_selection_next,     -- move to next result
                 ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
               },
             },
@@ -190,11 +190,11 @@ require("lazy").setup({
 
         -- configure autopairs
         autopairs.setup({
-          check_ts = true, -- enable treesitter
+          check_ts = true,                      -- enable treesitter
           ts_config = {
-            lua = { "string" }, -- don't add pairs in lua string treesitter nodes
+            lua = { "string" },                 -- don't add pairs in lua string treesitter nodes
             javascript = { "template_string" }, -- don't add pairs in javscript template_string treesitter nodes
-            java = false, -- don't check treesitter on java
+            java = false,                       -- don't check treesitter on java
           },
         })
 
@@ -211,13 +211,13 @@ require("lazy").setup({
     {
       'numToStr/Comment.nvim',
       config = true, -- Automatic configuration
-      keys = { -- Lazy-load the plugin when these keys are pressed
+      keys = {       -- Lazy-load the plugin when these keys are pressed
         { "<leader>/", desc = "Toggle comment" },
-        { "<leader>/", mode = "v", desc = "Toggle comment" },
+        { "<leader>/", mode = "v",             desc = "Toggle comment" },
       }
     },
   },
-  install = { colorscheme = { "catppuccin" } },  -- Changed to match your config
+  install = { colorscheme = { "catppuccin" } }, -- Changed to match your config
 })
 
 --------------------------------
@@ -227,30 +227,30 @@ require("lazy").setup({
 require("neo-tree").setup({
   filesystem = {
     filtered_items = {
-      hide_dotfiles = false,      -- Show dotfiles (hidden files)
-      hide_gitignored = false,    -- Show gitignored files
-      hide_hidden = false,        -- Show truly hidden files
-      visible = true,             -- Make hidden items visible by default
-      never_show = {              -- Exclude these patterns (even when visible=true)
+      hide_dotfiles = false,   -- Show dotfiles (hidden files)
+      hide_gitignored = false, -- Show gitignored files
+      hide_hidden = false,     -- Show truly hidden files
+      visible = true,          -- Make hidden items visible by default
+      never_show = {           -- Exclude these patterns (even when visible=true)
         ".git",
         ".DS_Store",
         "thumbs.db"
       }
     },
     follow_current_file = {
-      enabled = true,             -- Auto-reveal files from hidden dirs
+      enabled = true, -- Auto-reveal files from hidden dirs
     },
     window = {
-      width =30,  -- Set fixed width (default is 40)
+      width = 30,                -- Set fixed width (default is 40)
       -- OR for dynamic sizing:
-      max_width = 35,  -- Maximum expandable width
-      min_width = 25,  -- Minimum collapsible width
-      auto_expand_width = false,  -- Prevent auto-resizing
+      max_width = 35,            -- Maximum expandable width
+      min_width = 25,            -- Minimum collapsible width
+      auto_expand_width = false, -- Prevent auto-resizing
       mappings = {
-        ["<cr>"] = "open",        -- Enter key opens files or directories
-        ["l"] = "open",           -- 'l' key also opens files or directories
-        ["c"] = "close_node",     -- 'h' key collapses the current directory
-        ["h"] = "navigate_up",    -- 'P' key navigates up to the parent directory
+        ["<cr>"] = "open",       -- Enter key opens files or directories
+        ["l"] = "open",          -- 'l' key also opens files or directories
+        ["c"] = "close_node",    -- 'h' key collapses the current directory
+        ["h"] = "navigate_up",   -- 'P' key navigates up to the parent directory
         -- Add other mappings as needed
       },
     },
@@ -293,7 +293,7 @@ require('gitsigns').setup({
 require("mason").setup()
 local mason_lspconfig = require("mason-lspconfig")
 require("mason-lspconfig").setup({
-  ensure_installed = { "lua_ls", "zls" }  -- Add your desired LSP servers
+  ensure_installed = { "lua_ls" } -- Add your desired LSP servers
 })
 
 local lspconfig = require("lspconfig")
@@ -315,7 +315,7 @@ cmp.setup({
     ['<C-j>'] = cmp.mapping.select_next_item(),
     ['<C-k>'] = cmp.mapping.select_prev_item(),
     ['<C-l>'] = cmp.mapping.confirm({ select = true }),
-    ['<C-h>'] = cmp.mapping.abort(),  
+    ['<C-h>'] = cmp.mapping.abort(),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -383,7 +383,11 @@ end
 
 -- General file operations
 vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>w", ":w<CR>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<leader>w", ":w<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>w", function()
+  vim.lsp.buf.format({ async = false })  -- run formatter first
+  vim.cmd("w")                           -- then save
+end, { noremap = true, silent = true, desc = "Format and save" })
 vim.keymap.set("n", "<leader>q", ":q!<CR>", { noremap = true, silent = true })
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true })
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
@@ -396,7 +400,7 @@ vim.keymap.set("n", "<leader>bf", ":bfirst<CR>", { noremap = true, silent = true
 vim.keymap.set("n", "<leader>bl", ":blast<CR>", { noremap = true, silent = true })
 
 -- Clipboard operations (unified style)
-vim.keymap.set({"n", "v"}, "<Leader>y", '"+y', { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "<Leader>y", '"+y', { noremap = true, silent = true })
 vim.keymap.set("n", "<Leader>p", '"+p', { noremap = true, silent = true })
 
 -- Line movement (improved with descriptions)
@@ -406,11 +410,12 @@ vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { noremap = true, silent = true, de
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = "Move selection up" })
 
 -- Tab movements
-vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { noremap = true, silent = true, desc = "Open new tab" }) -- open new tab
-vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { noremap = true, silent = true, desc = "Close current tab" }) -- close current tab
-vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { noremap = true, silent = true, desc = "Go to next tab" }) -- go to next tab
-vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { noremap = true, silent = true, desc = "Go to previous tab" }) -- go to previous tab
-vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { noremap = true, silent = true, desc = "Open current buffer in new tab" }) -- move current buffer to new tab
+vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { noremap = true, silent = true, desc = "Open new tab" })        -- open new tab
+vim.keymap.set("n", "<leader>tq", "<cmd>tabclose<CR>", { noremap = true, silent = true, desc = "Close current tab" }) -- close current tab
+vim.keymap.set("n", "<leader>tj", "<cmd>tabn<CR>", { noremap = true, silent = true, desc = "Go to next tab" })        -- go to next tab
+vim.keymap.set("n", "<leader>tk", "<cmd>tabp<CR>", { noremap = true, silent = true, desc = "Go to previous tab" })    -- go to previous tab
+vim.keymap.set("n", "<leader>tt", "<cmd>tabnew %<CR>",
+  { noremap = true, silent = true, desc = "Open current buffer in new tab" })                                         -- move current buffer to new tab
 
 -- Vimtex keys
 vim.keymap.set('n', '<leader>vc', '<cmd>VimtexCompile<CR>', { desc = "LaTeX Compile" })
@@ -418,10 +423,10 @@ vim.keymap.set('n', '<leader>vv', '<cmd>VimtexView<CR>', { desc = "View PDF" })
 vim.keymap.set('n', '<leader>vt', '<cmd>VimtexTocToggle<CR>', { desc = "Toggle TOC" })
 
 -- Split operations  do not use zr, zs -> for session management.
-vim.keymap.set("n", "<leader>zv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
+vim.keymap.set("n", "<leader>zv", "<C-w>v", { desc = "Split window vertically" })   -- split window vertically
 vim.keymap.set("n", "<leader>zh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
-vim.keymap.set("n", "<leader>ze", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
-vim.keymap.set("n", "<leader>zx", "<cmd>close<CR>", { desc = "Close current split" }) 
+vim.keymap.set("n", "<leader>ze", "<C-w>=", { desc = "Make splits equal size" })    -- make split windows equal width & height
+vim.keymap.set("n", "<leader>zx", "<cmd>close<CR>", { desc = "Close current split" })
 vim.keymap.set("n", "<leader>zz", "<C-w>w", { desc = "Cycle through open splits" }) -- split window vertically
 
 -- Key mappings
@@ -434,27 +439,27 @@ vim.keymap.set("n", "[c", function() require('gitsigns').prev_hunk() end)
 vim.keymap.set("n", "]c", function() require('gitsigns').next_hunk() end)
 
 -- Visual mode reconfiguration:
-vim.keymap.set('n', 'vv', 'v', { noremap = true })
-vim.keymap.set('n', 'vl', 'V', { noremap = true })
-vim.keymap.set('n', 'vb', '<C-v>', { noremap = true })
-vim.keymap.set('n', 'v', '<Nop>', { noremap = true })
-vim.keymap.set('n', 'V', '<Nop>', { noremap = true })
-vim.keymap.set('n', '<C-v>', '<Nop>', { noremap = true })
+-- vim.keymap.set('n', 'vv', 'v', { noremap = true })
+-- vim.keymap.set('n', 'vl', 'V', { noremap = true })
+-- vim.keymap.set('n', 'vb', '<C-v>', { noremap = true })
+-- vim.keymap.set('n', 'v', '<Nop>', { noremap = true })
+-- vim.keymap.set('n', 'V', '<Nop>', { noremap = true })
+-- vim.keymap.set('n', '<C-v>', '<Nop>', { noremap = true })
 
 -- Diffview commands
 vim.keymap.set("n", "<leader>gv", "<cmd>DiffviewOpen<CR>", { desc = "View diffs" })
 vim.keymap.set("n", "<leader>gq", "<cmd>DiffviewClose<CR>", { desc = "Close diff view" })
 
 vim.keymap.set("n", "<leader>tt", function()
-    if vim.o.showtabline == 2 then
-        vim.o.showtabline = 0
-    else
-        vim.o.showtabline = 2
-    end
+  if vim.o.showtabline == 2 then
+    vim.o.showtabline = 0
+  else
+    vim.o.showtabline = 2
+  end
 end, { silent = true, noremap = true, desc = "Toggle Tab Bar" })
 
 -- Enhanced keymaps (optional but recommended)
-vim.keymap.set({'n', 'v'}, '<leader>/', function()
+vim.keymap.set({ 'n', 'v' }, '<leader>/', function()
   require('Comment.api').toggle.linewise.current()
 end, { desc = "Toggle comment" })
 
