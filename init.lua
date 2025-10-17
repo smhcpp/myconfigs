@@ -46,11 +46,12 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
-    {
-      "catppuccin/nvim",
-      name = "catppuccin",
-      priority = 1000
-    },
+    -- {
+    -- "catppuccin/nvim",
+    -- name = "catppuccin",
+    -- priority = 1000
+    -- },
+    { "ellisonleao/gruvbox.nvim", priority = 1000, config = true },
     {
       "akinsho/toggleterm.nvim", -- Better terminal
       config = function()
@@ -92,35 +93,35 @@ require("lazy").setup({
         indent = { enable = true },
       },
     },
-     --{
+    --{
     -- "neovim/nvim-lspconfig"
     -- },
-     {
-     "hrsh7th/cmp-nvim-lsp"
-     },
+    {
+      "hrsh7th/cmp-nvim-lsp"
+    },
     --{
     --  "hrsh7th/nvim-cmp",
-     -- dependencies = {
+    -- dependencies = {
     --    "L3MON4D3/LuaSnip", -- Add snippet support
-     --   "saadparwaiz1/cmp_luasnip",
-     --   "rafamadriz/friendly-snippets"
+    --   "saadparwaiz1/cmp_luasnip",
+    --   "rafamadriz/friendly-snippets"
     --  }
     --},
     {
-  "hrsh7th/nvim-cmp",
-  dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path",
-    "hrsh7th/cmp-cmdline",
-  },
-},
+      "hrsh7th/nvim-cmp",
+      dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
+        "hrsh7th/cmp-cmdline",
+      },
+    },
     {
       "williamboman/mason.nvim",
       config = true
     },
     --{
-      --"williamboman/mason-lspconfig.nvim" -- Bridge between Mason and LSPConfig
+    --"williamboman/mason-lspconfig.nvim" -- Bridge between Mason and LSPConfig
     --},
     {
       "nvim-neo-tree/neo-tree.nvim",
@@ -229,7 +230,7 @@ require("lazy").setup({
     -- }
     -- },
   },
-  install = { colorscheme = { "catppuccin" } }, -- Changed to match your config
+  -- install = { colorscheme = { "catppuccin" } }, -- Changed to match your config
 })
 
 --------------------------------
@@ -434,4 +435,6 @@ end, { desc = "Toggle block comment" })
 vim.keymap.set('n', '<CR>', 'i<CR><Esc>', { noremap = true, desc = "Insert new line and return to normal mode" })
 
 
-vim.cmd.colorscheme("catppuccin")
+vim.o.background = "dark" -- or "light" for Gruvbox light
+vim.cmd.colorscheme("gruvbox")
+-- vim.cmd.colorscheme("catppuccin")
