@@ -92,27 +92,36 @@ require("lazy").setup({
         indent = { enable = true },
       },
     },
+     --{
+    -- "neovim/nvim-lspconfig"
+    -- },
+     {
+     "hrsh7th/cmp-nvim-lsp"
+     },
+    --{
+    --  "hrsh7th/nvim-cmp",
+     -- dependencies = {
+    --    "L3MON4D3/LuaSnip", -- Add snippet support
+     --   "saadparwaiz1/cmp_luasnip",
+     --   "rafamadriz/friendly-snippets"
+    --  }
+    --},
     {
-      "neovim/nvim-lspconfig"
-    },
-    {
-      "hrsh7th/cmp-nvim-lsp"
-    },
-    {
-      "hrsh7th/nvim-cmp",
-      dependencies = {
-        "L3MON4D3/LuaSnip", -- Add snippet support
-        "saadparwaiz1/cmp_luasnip",
-        "rafamadriz/friendly-snippets"
-      }
-    },
+  "hrsh7th/nvim-cmp",
+  dependencies = {
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-path",
+    "hrsh7th/cmp-cmdline",
+  },
+},
     {
       "williamboman/mason.nvim",
       config = true
     },
-    {
-      "williamboman/mason-lspconfig.nvim" -- Bridge between Mason and LSPConfig
-    },
+    --{
+      --"williamboman/mason-lspconfig.nvim" -- Bridge between Mason and LSPConfig
+    --},
     {
       "nvim-neo-tree/neo-tree.nvim",
       branch = "v3.x",
@@ -121,22 +130,6 @@ require("lazy").setup({
         "nvim-tree/nvim-web-devicons",
         "MunifTanjim/nui.nvim",
       }
-    },
-    {
-      "rmagatti/auto-session",
-      config = function()
-        local auto_session = require("auto-session")
-
-        auto_session.setup({
-          auto_restore_enabled = true,
-          auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
-        })
-
-        local keymap = vim.keymap
-        -- dont use zh, zv, zx, zn.
-        keymap.set("n", "<leader>zo", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" })             -- restore last workspace session for current directory
-        keymap.set("n", "<leader>zz", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
-      end,
     },
     {
       'nvim-lualine/lualine.nvim',
@@ -210,12 +203,31 @@ require("lazy").setup({
     },
     {
       'numToStr/Comment.nvim',
-      config = true, -- Automatic configuration
-      keys = {       -- Lazy-load the plugin when these keys are pressed
+      opts = {
+        toggler = {
+          line = '<leader>/',
+        },
+        opleader = {
+          line = '<leader>/',
+        },
+        mappings = {
+          basic = true,
+          extra = false
+        }
+      },
+      keys = {
         { "<leader>/", desc = "Toggle comment" },
         { "<leader>/", mode = "v",             desc = "Toggle comment" },
       }
     },
+    -- {
+    -- 'numToStr/Comment.nvim',
+    -- config = true, -- Automatic configuration
+    -- keys = {       -- Lazy-load the plugin when these keys are pressed
+    -- { "<leader>/", desc = "Toggle comment" },
+    -- { "<leader>/", mode = "v",             desc = "Toggle comment" },
+    -- }
+    -- },
   },
   install = { colorscheme = { "catppuccin" } }, -- Changed to match your config
 })
@@ -262,21 +274,6 @@ require("neo-tree").setup({
 
 require('lualine').setup()
 
--- Basic configuration (add anywhere after Lazy setup)
-require('Comment').setup({
-  toggler = {
-    line = '<leader>/', -- Toggle line comment
-  },
-  opleader = {
-    line = '<leader>/', -- Toggle line comment
-  },
-  -- For visual mode mapping
-  mappings = {
-    basic = true,
-    extra = false
-  }
-})
-
 -- Configure Gitsigns (line decorations)
 require('gitsigns').setup({
   signs = {
@@ -289,93 +286,58 @@ require('gitsigns').setup({
   },
 })
 
--- LSP Setup
-require("mason").setup()
-local mason_lspconfig = require("mason-lspconfig")
-require("mason-lspconfig").setup({
-  ensure_installed = { "lua_ls" } -- Add your desired LSP servers
+
+-- ========== LSP CONFIG ==========
+local cmp_lsp = require('cmp_nvim_lsp')
+
+local capabilities = vim.tbl_deep_extend(
+  'force',
+  vim.lsp.protocol.make_client_capabilities(),
+  cmp_lsp.default_capabilities()
+)
+
+local function on_attach(_, bufnr)
+  local opts = { buffer = bufnr, silent = true }
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+end
+
+vim.lsp.config('lua_ls', {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    Lua = { diagnostics = { globals = { 'vim' } } },
+  },
 })
 
-local lspconfig = require("lspconfig")
-local cmp = require("cmp")
+vim.lsp.config('texlab', { on_attach = on_attach, capabilities = capabilities })
+vim.lsp.config('zls', { on_attach = on_attach, capabilities = capabilities })
 
--- Setup nvim-cmp
+vim.lsp.enable({ 'lua_ls', 'texlab', 'zls' })
+
+-- Diagnostics
+vim.diagnostic.config({
+  virtual_text = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+})
+local cmp = require('cmp')
+
 cmp.setup({
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
-  },
   mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ['<C-j>'] = cmp.mapping.select_next_item(),
-    ['<C-k>'] = cmp.mapping.select_prev_item(),
-    ['<C-l>'] = cmp.mapping.confirm({ select = true }),
-    ['<C-h>'] = cmp.mapping.abort(),
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-  }, {
     { name = 'buffer' },
-  })
+    { name = 'path' },
+  }),
 })
-
--- LSP keymaps
-local on_attach = function(client, bufnr)
-  local opts = { buffer = bufnr, remap = false }
-
-  vim.keymap.set("n", "<leader>lbd", vim.lsp.buf.definition, opts)
-  vim.keymap.set("n", "<leader>lbh", vim.lsp.buf.hover, opts)
-  vim.keymap.set("n", "<leader>lws", vim.lsp.buf.workspace_symbol, opts)
-  vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, opts)
-  vim.keymap.set("n", "<leader>ln", vim.diagnostic.goto_next, opts)
-  vim.keymap.set("n", "<leader>lp", vim.diagnostic.goto_prev, opts)
-  vim.keymap.set("n", "<leader>lca", vim.lsp.buf.code_action, opts)
-  vim.keymap.set("n", "<leader>lrr", vim.lsp.buf.references, opts)
-  vim.keymap.set("n", "<leader>lrn", vim.lsp.buf.rename, opts)
-  vim.keymap.set("i", "<leader>lh", vim.lsp.buf.signature_help, opts)
-end
-
--- Consolidated LSP server setup
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-for _, server in ipairs(mason_lspconfig.get_installed_servers()) do
-  local opts = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-
-  if server == "texlab" then
-    opts.settings = {
-      texlab = {
-        build = {
-          args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-        },
-        forwardSearch = {
-          executable = "zathura",
-          args = { "--synctex-forward", "%l:1:%f", "%p" },
-        },
-      },
-    }
-  elseif server == "zls" then
-    opts.cmd = { "/usr/bin/zls" }
-  elseif server == "lua_ls" then
-    opts.settings = {
-      Lua = {
-        diagnostics = {
-          globals = { "vim" },
-        },
-      },
-    }
-  end
-
-  lspconfig[server].setup(opts)
-end
 
 --------------------------------
 ----------Mapping Keys----------
@@ -385,8 +347,8 @@ end
 vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<leader>w", ":w<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>w", function()
-  vim.lsp.buf.format({ async = false })  -- run formatter first
-  vim.cmd("w")                           -- then save
+  vim.lsp.buf.format({ async = false }) -- run formatter first
+  vim.cmd("w")                          -- then save
 end, { noremap = true, silent = true, desc = "Format and save" })
 vim.keymap.set("n", "<leader>q", ":q!<CR>", { noremap = true, silent = true })
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true })
@@ -412,8 +374,8 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true, silent = true, de
 -- Tab movements
 vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { noremap = true, silent = true, desc = "Open new tab" })        -- open new tab
 vim.keymap.set("n", "<leader>tq", "<cmd>tabclose<CR>", { noremap = true, silent = true, desc = "Close current tab" }) -- close current tab
-vim.keymap.set("n", "<leader>tj", "<cmd>tabn<CR>", { noremap = true, silent = true, desc = "Go to next tab" })        -- go to next tab
-vim.keymap.set("n", "<leader>tk", "<cmd>tabp<CR>", { noremap = true, silent = true, desc = "Go to previous tab" })    -- go to previous tab
+vim.keymap.set("n", "<leader>tk", "<cmd>tabn<CR>", { noremap = true, silent = true, desc = "Go to next tab" })        -- go to next tab
+vim.keymap.set("n", "<leader>tj", "<cmd>tabp<CR>", { noremap = true, silent = true, desc = "Go to previous tab" })    -- go to previous tab
 vim.keymap.set("n", "<leader>tt", "<cmd>tabnew %<CR>",
   { noremap = true, silent = true, desc = "Open current buffer in new tab" })                                         -- move current buffer to new tab
 
