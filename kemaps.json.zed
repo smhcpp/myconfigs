@@ -1,12 +1,22 @@
 [
-  // ------------------------------------
-  // --- Vim Normal Mode Keymaps
-  // ------------------------------------
+  // {
+  //   "context": "Workspace",
+  //   "bindings": {
+
+  //   }
+  // },
   {
     //"context": "Vim",
     "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
     "bindings": {
       "space /": "editor::ToggleComments",
+      "space b k": "pane::ActivateNextItem",
+      "space b j": "pane::ActivatePreviousItem",
+      "space z z": "workspace::ActivateNextPane",
+      "space z k": "workspace::ActivatePaneDown",
+      "space z j": "workspace::ActivatePaneUp",
+      "space z h": "workspace::ActivatePaneLeft",
+      "space z l": "workspace::ActivatePaneRight",
       "space p": "editor::Paste",
       "space w": "workspace::Save",
       "space q": "pane::CloseActiveItem",
@@ -20,6 +30,10 @@
       "space l l": "diagnostics::Deploy",
       "space ,": "workspace::OpenInTerminal",
       "space f g": "pane::DeploySearch",
+      "z k": "editor::ScrollCursorTop",
+      "z z": "editor::ScrollCursorCenter",
+      "z .": ["workspace::SendKeystrokes", "z z ^"],
+      "z j": "editor::ScrollCursorBottom",
       "v v": "vim::ToggleVisual",
       "v l": "vim::ToggleVisualLine",
       "v a": "editor::SelectAll",
@@ -33,7 +47,12 @@
       "g o": "outline::Toggle"
     }
   },
-
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "space z z": "project_panel::ToggleFocus"
+    }
+  },
   // {
   // "context": "showing_completions",
   //   // "bindings": {
