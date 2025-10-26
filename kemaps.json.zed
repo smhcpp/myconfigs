@@ -1,0 +1,71 @@
+[
+  // ------------------------------------
+  // --- Vim Normal Mode Keymaps
+  // ------------------------------------
+  {
+    //"context": "Vim",
+    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      "space /": "editor::ToggleComments",
+      "space p": "editor::Paste",
+      "space w": "workspace::Save",
+      "space q": "pane::CloseActiveItem",
+      "space e": "workspace::ToggleLeftDock",
+      "space f f": "file_finder::Toggle",
+      "space h": "editor::Hover",
+      "shift-k": "editor::MoveLineUp",
+      "shift-j": "editor::MoveLineDown",
+      "space l": "editor::ToggleCodeActions", // zed specific
+      "space l f": "editor::Format",
+      "space l l": "diagnostics::Deploy",
+      "space ,": "workspace::OpenInTerminal",
+      "space f g": "pane::DeploySearch",
+      "v v": "vim::ToggleVisual",
+      "v l": "vim::ToggleVisualLine",
+      "v a": "editor::SelectAll",
+      "v b": "vim::ToggleVisualBlock",
+      "g d": "editor::GoToDefinitionSplit",
+      "g t": "editor::GoToTypeDefinitionSplit",
+      "g k": "vim::GoToTab",
+      "g j": "vim::GoToPreviousTab",
+      "g e": ["vim::EndOfLine", { "display_lines": true }],
+      "g s": ["vim::StartOfLine", { "display_lines": true }],
+      "g o": "outline::Toggle"
+    }
+  },
+
+  // {
+  // "context": "showing_completions",
+  //   // "bindings": {
+  //     "ctrl-j": "vim::ScrollDown",
+  //     "ctrl-k": "vim::ScrollUp",
+  //     "ctrl-e": "vim::LineDown",
+  //     "ctrl-y": "vim::LineUp"
+  //   }
+  // },
+  {
+    "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
+    "bindings": {
+      "shift-k": "editor::MoveLineUp",
+      "shift-j": "editor::MoveLineDown",
+      "space y": "editor::Copy",
+      "space /": "editor::ToggleComments"
+    }
+  },
+
+  {
+    "context": "Editor && vim_mode == insert && !VimWaiting && !menu",
+    "bindings": {
+      "ctrl-l": "editor::AcceptEditPrediction",
+      "j k": "vim::NormalBefore"
+    }
+  },
+
+  {
+    "context": "Terminal && !menu",
+    "bindings": {
+      "j k": "workspace::ToggleBottomDock",
+      "escape": "workspace::ToggleBottomDock"
+    }
+  }
+]
