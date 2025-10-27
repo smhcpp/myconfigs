@@ -71,6 +71,11 @@
   {
     "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
     "bindings": {
+      "s k": "editor::ScrollCursorTop",
+      "s s": "editor::ScrollCursorCenter",
+      "s j": "editor::ScrollCursorBottom",
+      "m j": "vim::ScrollDown",
+      "m k": "vim::ScrollUp",
       "shift-k": "editor::MoveLineUp",
       "shift-j": "editor::MoveLineDown",
       "space y": "editor::Copy",
