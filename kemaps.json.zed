@@ -9,17 +9,19 @@
     //"context": "Vim",
     "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
     "bindings": {
+      "space w": "workspace::Save",
+      "space q": "pane::CloseActiveItem",
       "space /": "editor::ToggleComments",
       "space b k": "pane::ActivateNextItem",
       "space b j": "pane::ActivatePreviousItem",
-      "space z z": "workspace::ActivateNextPane",
-      "space z k": "workspace::ActivatePaneDown",
-      "space z j": "workspace::ActivatePaneUp",
-      "space z h": "workspace::ActivatePaneLeft",
-      "space z l": "workspace::ActivatePaneRight",
+      "z z": "workspace::ActivateNextPane",
+      "z k": "workspace::ActivatePaneDown",
+      "z j": "workspace::ActivatePaneUp",
+      "z h": "workspace::ActivatePaneLeft",
+      "z l": "workspace::ActivatePaneRight",
+      "m j": "vim::ScrollDown",
+      "m k": "vim::ScrollUp",
       "space p": "editor::Paste",
-      "space w": "workspace::Save",
-      "space q": "pane::CloseActiveItem",
       "space e": "workspace::ToggleLeftDock",
       "space f f": "file_finder::Toggle",
       "space h": "editor::Hover",
@@ -32,10 +34,9 @@
       "space f g": "pane::DeploySearch",
       "enter": "editor::Newline",
       "backspace": "editor::Backspace",
-      "z k": "editor::ScrollCursorTop",
-      "z z": "editor::ScrollCursorCenter",
-      "z .": ["workspace::SendKeystrokes", "z z ^"],
-      "z j": "editor::ScrollCursorBottom",
+      "s k": "editor::ScrollCursorTop",
+      "s s": "editor::ScrollCursorCenter",
+      "s j": "editor::ScrollCursorBottom",
       "v v": "vim::ToggleVisual",
       "v l": "vim::ToggleVisualLine",
       "v a": "editor::SelectAll",
@@ -52,7 +53,7 @@
   {
     "context": "ProjectPanel",
     "bindings": {
-      "space z z": "project_panel::ToggleFocus",
+      "z z": "project_panel::ToggleFocus",
       "r": "project_panel::Rename",
       "a": "project_panel::NewDirectory",
       "f": "project_panel::NewFile",
@@ -66,15 +67,6 @@
       "x": "project_panel::Cut"
     }
   },
-  // {
-  // "context": "showing_completions",
-  //   // "bindings": {
-  //     "ctrl-j": "vim::ScrollDown",
-  //     "ctrl-k": "vim::ScrollUp",
-  //     "ctrl-e": "vim::LineDown",
-  //     "ctrl-y": "vim::LineUp"
-  //   }
-  // },
   {
     "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
     "bindings": {
