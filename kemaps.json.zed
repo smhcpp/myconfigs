@@ -30,6 +30,8 @@
       "space l l": "diagnostics::Deploy",
       "space ,": "workspace::OpenInTerminal",
       "space f g": "pane::DeploySearch",
+      "enter": "editor::Newline",
+      "backspace": "editor::Backspace",
       "z k": "editor::ScrollCursorTop",
       "z z": "editor::ScrollCursorCenter",
       "z .": ["workspace::SendKeystrokes", "z z ^"],
@@ -50,7 +52,18 @@
   {
     "context": "ProjectPanel",
     "bindings": {
-      "space z z": "project_panel::ToggleFocus"
+      "space z z": "project_panel::ToggleFocus",
+      "r": "project_panel::Rename",
+      "a": "project_panel::NewDirectory",
+      "f": "project_panel::NewFile",
+      "d": "project_panel::Delete",
+      "c": "project_panel::Copy",
+      "l": "project_panel::Open",
+      "h": "project_panel::SelectParent",
+      // "b": "project_panel::FoldDirectory",
+      // "m": "project_panel::Move",
+      "p": "project_panel::Paste",
+      "x": "project_panel::Cut"
     }
   },
   // {
