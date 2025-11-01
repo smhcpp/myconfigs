@@ -1,0 +1,390 @@
+   {
+  // --- Zig ---
+  "zig.zls.enabled": "on",
+  // --- Vim Extension Core Settings ---
+  "vim.leader": "<space>",
+  "vim.easymotion": true,
+  "vim.incsearch": true,
+  "vim.hlsearch": true,
+  "vim.useCtrlKeys": true,
+  "vim.useSystemClipboard": true,
+  // --- Insert Mode ---
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "j",
+        "k"
+      ],
+      "after": [
+        "<Esc>"
+      ]
+    }
+  ],
+  // --- Normal Mode ---
+  "vim.normalModeKeyBindingsNonRecursive": [
+    // Save & Quit
+    {
+      "before": [
+        "<leader>",
+        "w"
+      ],
+      "commands": [
+        ":w"
+      ]
+    },
+    {
+      "before": [
+        "<CR>"
+      ],
+      "after": [
+        "o",
+        "<Esc>"
+      ]
+    },
+    {
+      "before": [
+        "<BS>"
+      ],
+      "commands": [
+        "deleteLeft"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "e"
+      ],
+      "commands": [
+        "cursorEnd"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "s"
+      ],
+      "commands": [
+        "cursorHome"
+      ], // moves to start of wrapped line
+    },
+    // --- Visual mode shortcuts ---
+    {
+      "before": [
+        "v",
+        "v"
+      ],
+      "after": [
+        "v"
+      ]
+    },
+    {
+      "before": [
+        "v",
+        "l"
+      ],
+      "after": [
+        "V"
+      ]
+    },
+    {
+      "before": [
+        "v",
+        "b"
+      ],
+      "after": [
+        "<C-v>"
+      ]
+    },
+    {
+      "before": [
+        "v",
+        "a"
+      ],
+      "commands": [
+        "editor.action.selectAll"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "q"
+      ],
+      "commands": [
+        ":q!"
+      ]
+    },
+    // Comments
+    {
+      "before": [
+        "<leader>",
+        "/"
+      ],
+      "commands": [
+        "editor.action.commentLine"
+      ]
+    },
+    // Paste
+    {
+      "before": [
+        "<leader>",
+        "p"
+      ],
+      "commands": [
+        "editor.action.clipboardPasteAction"
+      ]
+    },
+    // Format Document
+    {
+      "before": [
+        "<leader>",
+        "l",
+        "f"
+      ],
+      "commands": [
+        "editor.action.formatDocument"
+      ]
+    },
+    // Toggle Explorer
+    {
+      "before": [
+        "<leader>",
+        "e"
+      ],
+      "commands": [
+        "workbench.action.toggleSidebarVisibility"
+      ]
+    },
+    // Quick Open (File Finder)
+    {
+      "before": [
+        "<leader>",
+        "f",
+        "f"
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ]
+    },
+    // Search in Files
+    {
+      "before": [
+        "<leader>",
+        "f",
+        "g"
+      ],
+      "commands": [
+        "workbench.action.findInFiles"
+      ]
+    },
+    // Toggle Bottom Panel (Terminal/Problems/etc.)
+    {
+      "before": [
+        "<leader>",
+        ","
+      ],
+      "commands": [
+        "workbench.action.togglePanel"
+      ]
+    },
+    // Open Terminal
+    {
+      "before": [
+        "<leader>",
+        "."
+      ],
+      "commands": [
+        "workbench.action.terminal.toggleTerminal"
+      ]
+    },
+    // Move Lines Up/Down
+    {
+      "before": [
+        "<S-k>"
+      ],
+      "commands": [
+        "editor.action.moveLinesUpAction"
+      ]
+    },
+    {
+      "before": [
+        "<S-j>"
+      ],
+      "commands": [
+        "editor.action.moveLinesDownAction"
+      ]
+    },
+    // Pane (Editor Group) Navigation
+    {
+      "before": [
+        "z",
+        "h"
+      ],
+      "commands": [
+        "workbench.action.focusLeftGroup"
+      ]
+    },
+    {
+      "before": [
+        "z",
+        "l"
+      ],
+      "commands": [
+        "workbench.action.focusRightGroup"
+      ]
+    },
+    {
+      "before": [
+        "z",
+        "j"
+      ],
+      "commands": [
+        "workbench.action.focusBelowGroup"
+      ]
+    },
+    {
+      "before": [
+        "z",
+        "k"
+      ],
+      "commands": [
+        "workbench.action.focusAboveGroup"
+      ]
+    },
+    {
+      "before": [
+        "z",
+        "z"
+      ],
+      "commands": [
+        "workbench.action.focusNextGroup"
+      ]
+    },
+    // Go To Definition / Type Definition
+    {
+      "before": [
+        "g",
+        "d"
+      ],
+      "commands": [
+        "editor.action.revealDefinitionAside"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "t"
+      ],
+      "commands": [
+        "editor.action.goToTypeDefinition"
+      ]
+    },
+    // Toggle Outline
+    {
+      "before": [
+        "g",
+        "o"
+      ],
+      "commands": [
+        "workbench.views.outline.focus"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "j"
+      ],
+      "commands": [
+        "workbench.action.nextEditorInGroup"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "k"
+      ],
+      "commands": [
+        "workbench.action.previousEditorInGroup"
+      ]
+    },
+    // Scroll mappings (m + s variants)
+    {
+      "before": [
+        "m",
+        "j"
+      ],
+      "commands": [
+        "scrollLineDown"
+      ]
+    },
+    {
+      "before": [
+        "m",
+        "k"
+      ],
+      "commands": [
+        "scrollLineUp"
+      ]
+    },
+    {
+      "before": [
+        "s",
+        "k"
+      ],
+      "commands": [
+        ":normal H"
+      ]
+    },
+    {
+      "before": [
+        "s",
+        "s"
+      ],
+      "commands": [
+        ":normal zz"
+      ]
+    },
+    {
+      "before": [
+        "s",
+        "j"
+      ],
+      "commands": [
+        ":normal L"
+      ]
+    }
+  ],
+  // --- Visual Mode ---
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "/"
+      ],
+      "commands": [
+        "editor.action.commentLine"
+      ]
+    },
+    {
+      "before": [
+        "<S-k>"
+      ],
+      "commands": [
+        "editor.action.moveLinesUpAction"
+      ]
+    },
+    {
+      "before": [
+        "<S-j>"
+      ],
+      "commands": [
+        "editor.action.moveLinesDownAction"
+      ]
+    }
+  ],
+  // --- Misc / Integrations ---
+  "extensions.experimental.affinity": {
+    "vscodevim.vim": 1
+  },
+  "editor.formatOnSave": true,
+  "workbench.colorTheme": "Monokai Dimmed"
+}
