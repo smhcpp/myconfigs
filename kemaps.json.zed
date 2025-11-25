@@ -21,7 +21,7 @@
       "shift-k": "editor::MoveLineUp",
       "shift-j": "editor::MoveLineDown",
       "space l": "editor::ToggleCodeActions", // zed specific
-      "space l f": "editor::Format",
+      "space r": "editor::Format",
       "space l l": "diagnostics::Deploy",
       "space ,": "workspace::ToggleBottomDock",
       "space .": "workspace::OpenInTerminal",
@@ -33,8 +33,8 @@
       "z k": "workspace::ActivatePaneUp",
       "z h": "workspace::ActivatePaneLeft",
       "z l": "workspace::ActivatePaneRight",
-      "m j": "vim::ScrollDown",
-      "m k": "vim::ScrollUp",
+      "ctrl-j": "vim::ScrollDown",
+      "ctrl-k": "vim::ScrollUp",
       "s k": "editor::ScrollCursorTop",
       "s s": "editor::ScrollCursorCenter",
       "s j": "editor::ScrollCursorBottom",
@@ -52,7 +52,7 @@
     }
   },
   {
-    "context": "ProjectPanel",
+    "context": "ProjectPanel && not_editing",
     "bindings": {
       "z z": "project_panel::ToggleFocus",
       "r": "project_panel::Rename",
@@ -76,6 +76,13 @@
       "s j": "editor::ScrollCursorBottom",
       "m j": "vim::ScrollDown",
       "m k": "vim::ScrollUp",
+      "g d": "editor::GoToDefinitionSplit",
+      "g t": "editor::GoToTypeDefinitionSplit",
+      "g k": "vim::GoToTab",
+      "g j": "vim::GoToPreviousTab",
+      "g e": ["vim::EndOfLine", { "display_lines": true }],
+      "g s": ["vim::StartOfLine", { "display_lines": true }],
+      "g o": "outline::Toggle",
       "shift-k": "editor::MoveLineUp",
       "shift-j": "editor::MoveLineDown",
       "space y": "editor::Copy",
@@ -84,7 +91,7 @@
   },
 
   {
-    "context": "Editor && vim_mode == insert && !VimWaiting && !menu",
+    "context": "Editor && vim_mode == insert && !VimWaiting",
     "bindings": {
       "ctrl-l": "editor::AcceptEditPrediction",
       "j k": "vim::NormalBefore"
