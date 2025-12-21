@@ -88,7 +88,17 @@ vim.keymap.set("n", "<leader>tt", function()
   end
 end, { silent = true, noremap = true })
 
--- disabling bad keymaps:
+-- Sessions
+vim.opt.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    vim.cmd("mksession! Session.vim")
+  end,
+})
+vim.keymap.set("n", "<leader>sl", ":source Session.vim<CR>", { desc = "Load Session" })
+vim.keymap.set("n", "<leader>qq", ":mksession! Session.vim | qa<CR>", { silent = true })
+
+-- Disabling bad keymaps:
 --vim.keymap.set("n", "v", "<Nop>", { noremap = true, silent = true })
 vim.keymap.set("n", "s", "<Nop>", { silent = true })
 
