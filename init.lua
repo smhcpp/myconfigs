@@ -24,7 +24,66 @@ vim.opt.showmode = false
 vim.opt.laststatus = 3
 vim.opt.signcolumn = 'yes'
 vim.o.showtabline = 2
+vim.opt.redrawtime = 1500
+vim.opt.updatetime = 250
+vim.opt.lazyredraw = true
 vim.o.winborder = "rounded"
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("custom-terminal-setup", { clear = true }),
+  callback = function()
+    -- 1. Get the current directory name (e.g., "nvim" or "src")
+    local dir_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+    if dir_name == "" then dir_name = "root" end
+
+    -- 2. UI Polish (No numbers in terminal)
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+
+    -- 3. The Magic: Wait 50ms for CMD to be ready, then force the prompt
+    vim.defer_fn(function()
+      -- cls clears the Windows logo; prompt sets the folder name
+      local cmd = "cls && prompt " .. dir_name .. "$G \r"
+      vim.api.nvim_chan_send(vim.b.terminal_job_id, cmd)
+    end, 50)
+
+    vim.cmd("startinsert")
+  end,
+})
+
+function _G.MyTabLine()
+  local s = ""
+  for i = 1, vim.fn.tabpagenr('$') do
+    -- Highlight active vs inactive tabs
+    if i == vim.fn.tabpagenr() then
+      s = s .. '%#TabLineSel#' -- Active tab color
+    else
+      s = s .. '%#TabLine#'    -- Inactive tab color
+    end
+
+    -- Mouse click support
+    s = s .. '%' .. i .. 'T'
+
+    -- Get the filename for the current tab
+    local buflist = vim.fn.tabpagebuflist(i)
+    local winnr = vim.fn.tabpagewinnr(i)
+    local bufnr = buflist[winnr]
+    local bufname = vim.fn.bufname(bufnr)
+
+    if bufname ~= "" then
+      -- ":t" gets ONLY the filename (e.g., "main.zig")
+      local file = vim.fn.fnamemodify(bufname, ":t")
+      s = s .. "  " .. file .. "  "
+    else
+      s = s .. " [No Name] "
+    end
+  end
+
+  s = s .. '%#TabLineFill#%T'
+  return s
+end
+
+vim.opt.tabline = '%!v:lua.MyTabLine()'
 
 vim.keymap.set("n", "<leader>w", function()
   vim.lsp.buf.format({ async = false }) -- run formatter first
@@ -58,13 +117,22 @@ vim.keymap.set('n', '<CR>', 'i<CR><Esc>', { noremap = true })
 vim.keymap.set("n", "k", "gk", { noremap = true, silent = true })
 vim.keymap.set("n", "j", "gj", { noremap = true, silent = true })
 
--- Tab movements
-vim.keymap.set("n", "gn", "<cmd>tabnew<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "gk", "<cmd>tabn<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "gj", "<cmd>tabp<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "gs", "^", { noremap = true, silent = true })
-vim.keymap.set("n", "ge", "$", { noremap = true, silent = true })
+-- Terminal:
+---- Terminal on the BOTTOM
+vim.keymap.set("n", "<leader>tb", function()
+  vim.cmd("lcd %:p:h")
+  vim.cmd("botright split")
+  -- vim.cmd("resize 10") -- Resize the window BEFORE starting the terminal
+  vim.cmd("term")
+end, { silent = true })
 
+-- Terminal on the RIGHT
+vim.keymap.set("n", "<leader>t", function()
+  vim.cmd("lcd %:p:h")
+  vim.cmd("vertical botright split")
+  -- vim.cmd("vertical resize 80") -- Resize the window BEFORE starting the terminal
+  vim.cmd("term")
+end, { silent = true })
 --- Split operations
 vim.keymap.set("n", "ze", "<C-w>=")
 vim.keymap.set("n", "zz", "<C-w>w")
@@ -193,6 +261,7 @@ vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>")
 vim.keymap.set("n", "<leader>r", vim.lsp.buf.format)
 vim.keymap.set('n', '<leader>f', "<cmd>FzfLua files<CR>")
 vim.keymap.set('n', '<leader>g', "<cmd>FzfLua live_grep<CR>")
+vim.keymap.set('n', '<leader>/', "<cmd>e $MYVIMRC<CR>")
 vim.keymap.set('n', 'go', "<cmd>FzfLua lsp_document_symbols<CR>")
 --vim.keymap.set('n', '<leader>fb', "<cmd>FzfLua buffers<CR>")
 --vim.keymap.set('n', '<leader>fh', "<cmd>FzfLua help_tags<CR>")
